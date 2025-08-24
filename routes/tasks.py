@@ -1,15 +1,15 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
-from app import db
+from db import db
 
 tasks_bp = Blueprint("tasks", __name__)
 
-@tasks_bp.route("/", methods=["GET"])
+@tasks_bp.route("", methods=["GET"])
 def list_tasks():
     tasks = list(db.tasks.find({}, {"_id": 0}))
     return jsonify(tasks)
 
-@tasks_bp.route("/", methods=["POST"])
+@tasks_bp.route("", methods=["POST"])
 @jwt_required()
 def create_task():
     data = request.json

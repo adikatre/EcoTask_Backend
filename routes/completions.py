@@ -1,11 +1,11 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from bson.objectid import ObjectId
-from app import db
+from db import db
 
 completions_bp = Blueprint("completions", __name__)
 
-@completions_bp.route("/", methods=["POST"])
+@completions_bp.route("", methods=["POST"])
 @jwt_required()
 def complete_task():
     data = request.json

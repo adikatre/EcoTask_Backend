@@ -1,25 +1,21 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
-from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
 
-# Load environment variables
+# Load env
 load_dotenv()
 
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 CORS(app)
 
 # JWT setup
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET", "super-secret-key")
 jwt = JWTManager(app)
 
-# Mongo setup
-mongo = MongoClient(os.getenv("MONGO_URI", "mongodb://localhost:27017"))
-db = mongo["ecotask"]
-
-# Import routes
+# Import blueprints AFTER app setup
 from routes.auth import auth_bp
 from routes.tasks import tasks_bp
 from routes.completions import completions_bp
